@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app1
-          image: app1:latest
+          image: app1:prelatest
           ports:
             - containerPort: 8000
           resources:
