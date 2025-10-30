@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app1-service-latest
+  namespace: preprod
+spec:
+  selector:
+    app: app1-latest
+  ports:
+    - protocol: TCP
+      port: 80        # puerto expuesto del servicio
+      targetPort: 8000 # puerto del contenedor FastAPI
+  type: ClusterIP

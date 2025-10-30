@@ -1,9 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: app1-ingress
+  name: app1-ingress-canary
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "40"
 spec:
   rules:
   - host: localhost
@@ -13,6 +15,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: app1-service-prelatest
+            name: app1-service-latest
             port:
               number: 80
