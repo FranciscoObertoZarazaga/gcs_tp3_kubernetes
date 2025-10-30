@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app1
-          image: app1:prelatest
+          image: docker.io/library/app1:prelatest
           imagePullPolicy: Never
           ports:
             - containerPort: 8000

@@ -10,4 +10,4 @@ spec:
     - protocol: TCP
       port: 80        # puerto expuesto del servicio
       targetPort: 8000 # puerto del contenedor FastAPI
-  type: NodePort
+  type: ClusterIP
