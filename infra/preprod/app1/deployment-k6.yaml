@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: k6-dashboard
+  namespace: preprod
+spec:
+  template:
+    metadata:
+      labels:
+        app: k6-dashboard
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: k6
+          image: k6-tester:latest
+          imagePullPolicy: Never
+          command: ["k6"]
+          args:
+            - run
+            - "--out"
+            - "web-dashboard"
+            - "/app/test_k6.js"
+          ports:
+            - containerPort: 5665
