@@ -1,0 +1,11 @@
+FROM sonarsource/sonar-scanner-cli:11
+
+COPY run-scanner.sh /run-scanner.sh
+
+USER root
+
+RUN chown scanner-cli:scanner-cli /run-scanner.sh && chmod 755 /run-scanner.sh
+RUN mkdir -p /workspace && chown -R scanner-cli:scanner-cli /workspace
+RUN mkdir -p /tmp/logs && chown -R scanner-cli:scanner-cli /tmp/logs && chmod -R 777 /tmp/logs
+
+CMD ["/bin/sh", "-c", "/run-scanner.sh"]

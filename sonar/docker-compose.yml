@@ -1,0 +1,36 @@
+services:
+  sonarqube:
+    image: sonarqube:lts-community
+    container_name: sonarqube
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - ${SONAR_PORT}:${SONAR_INTERNAL_PORT}
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - ./logs:/opt/sonarqube/logs
+    networks:
+      - reverse-proxy-network
+      - sonar
+
+  setup:
+    build: .
+    container_name: sonarsetup
+    env_file:
+      - .env
+    depends_on:
+      - sonarqube
+    networks:
+      - sonar
+
+      
+volumes:
+  sonarqube_data:
+
+networks:
+  sonar:
+    external: true
+    name: sonar
+  reverse-proxy-network:
+    external: true

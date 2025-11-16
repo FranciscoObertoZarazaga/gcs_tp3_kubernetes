@@ -1,0 +1,17 @@
+services:
+  scanner:
+    container_name: remotesonarscanner
+    build:
+      context: .
+      dockerfile: Dockerfile.sonar
+    environment:
+      SONAR_TOKEN: ${SONAR_TOKEN}
+      SONAR_HOST: ${SONAR_HOST}
+      SONAR_PROJECT_KEY: ${SONAR_PROJECT_KEY}
+      SOURCE_DIR: ${SOURCE_DIR}
+      BRANCH_NAME: ${BRANCH_NAME}
+    volumes:
+      - ${SOURCE_DIR}:/workspace  
+      - ./sonarlogs:/tmp/logs
+      - ./sonar-project.properties:/sonar-project.properties
+    working_dir: /workspace

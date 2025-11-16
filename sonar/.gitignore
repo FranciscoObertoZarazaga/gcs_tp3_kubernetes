@@ -1,0 +1,5 @@
+.env
+logs/
+projects/
+remote.dist/.env
+remote.dist/sonar-project.properties

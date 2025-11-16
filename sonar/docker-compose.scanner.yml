@@ -1,0 +1,21 @@
+services:
+  sonarscanner:
+    container_name: sonarscanner
+    build:
+      context: .
+      dockerfile: Dockerfile.scanner
+    restart: no
+    env_file:
+      - .env
+    volumes:
+      - ./projects:/projects
+      - ./logs:/tmp/logs
+      - ${PROJECTS_MAPPING_1}
+    networks:
+      - sonar
+
+
+networks:
+  sonar:
+    external: true
+    name: sonar

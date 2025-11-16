@@ -1,0 +1,34 @@
+name: 🚨🔎 SonarQube Quality Gate Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛎️ Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🌍 Set environment variables
+        run: |
+          echo "🔐 Setting secrets..."
+          echo "SONAR_TOKEN=${{ secrets.SONAR_TOKEN }}" >> $GITHUB_ENV
+          echo "SONAR_HOST=${{ secrets.SONAR_HOST }}" >> $GITHUB_ENV
+          echo "SONAR_PROJECT_KEY=${{ secrets.SONAR_PROJECT_KEY }}" >> $GITHUB_ENV
+          echo "SOURCE_DIR=${{ secrets.SOURCE_DIR }}" >> $GITHUB_ENV
+          if [ -z "${{ secrets.BRANCH_NAME }}" ]; then
+            echo "Using branch from GitHub context"
+            echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+          else
+            echo "Using branch from secret"
+            echo "BRANCH_NAME=${{ secrets.BRANCH_NAME }}" >> $GITHUB_ENV
+          fi
+
+      - name: 🐳 Build and Run SonarQube container
+        run: |
+          echo "🚀 Running SonarQube analysis inside Docker..."
+          docker compose -f docker-compose.sonar.yml up --build --abort-on-container-exit
